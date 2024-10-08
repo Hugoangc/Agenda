@@ -6,27 +6,41 @@
 
     <div class="col-lg-8 my-3">
       <h1 class="text-center">Agenda</h1>
-      <p class="text-center lead">Seus contatos estão abaixo</p>
+      <p class="text-center lead">
+        Adicione um contato ou modifique um existente!
+      </p>
 
       <%- include('includes/messages')%>
       <div class="table-responsive">
         <table class="table my-3">
           <thead>
             <tr>
-              <th>Nome 1</th>
-              <th>Nome 2</th>
+              <th>Nome</th>
+              <th>Sobrenome</th>
+              <th>Profissão</th>
               <th>Telefone</th>
-              <th>Email</th>
+              <th>E-mail</th>
             </tr>
           </thead>
+          <% contatos.forEach(contato => {%>
           <tbody>
             <tr>
-              <td>Nome1</td>
-              <td>Nome2</td>
-              <td>84987651094</td>
-              <td>nomesobrenome@gmail.com</td>
+              <td><%= contato.nome%></td>
+              <td><%= contato.sobrenome%></td>
+              <td><%= contato.profissao%></td>
+              <td><%= contato.telefone%></td>
+              <td><%= contato.email%></td>
+              <%if(user) {%>
+              <td><a href="/contato/index/<%=contato._id%>">Editar</a></td>
+              <td>
+                <a class="text-danger" href="/contato/delete/<%=contato._id%>"
+                  >Excluir</a
+                >
+              </td>
+              <%}%>
             </tr>
           </tbody>
+          <%});%>
         </table>
       </div>
     </div>

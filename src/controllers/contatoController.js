@@ -18,9 +18,7 @@ exports.register = async (req, res) => {
     }
 
     req.flash("success", "Contato registrado com sucesso.");
-    req.session.save(() =>
-      res.redirect(`/contato/index/${contato.contato._id}`)
-    );
+    req.session.save(() => res.redirect(`/`));
     return;
   } catch (e) {
     console.log(e);
@@ -45,14 +43,12 @@ exports.edit = async function (req, res) {
 
     if (contato.errors.length > 0) {
       req.flash("errors", contato.errors);
-      req.session.save(() => res.redirect("back"));
+      req.session.save(() => res.redirect("/"));
       return;
     }
 
     req.flash("success", "Contato editado com sucesso.");
-    req.session.save(() =>
-      res.redirect(`/contato/index/${contato.contato._id}`)
-    );
+    req.session.save(() => res.redirect(`/`));
     return;
   } catch (e) {
     console.log(e);

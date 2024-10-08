@@ -13,7 +13,7 @@ mongoose
 const session = require("express-session"); //identificar o computador do cliente, o cookie
 const MongoStore = require("connect-mongo"); //sessoes salvas na base de dado
 const flash = require("connect-flash"); //mensagens auto destrutivas
-const helmet = require("helmet"); // recomendacao do express
+//const helmet = require("helmet"); // recomendacao do express
 const csrf = require("csurf"); // cria um token pra formulário
 const routes = require("./routes"); // rotas em geral
 const path = require("path"); //trabalha com caminhos
@@ -24,8 +24,8 @@ const {
   csrfMiddleware,
 } = require("./src/middlewares/middleware");
 
-app.use(helmet());
-
+//app.use(helmet());
+//app.use(helmet.referrerPolicy({ policy: ["origin", "unsafe-url"] }));
 app.use(express.urlencoded({ extended: true })); //permite postar formularios para dentro da aplicação
 app.use(express.json()); // permitindo também json para dentro da aplicação
 app.use(express.static(path.resolve(__dirname, "public"))); // permite acessar arquivos estáticos diretamente, css, img, etc...

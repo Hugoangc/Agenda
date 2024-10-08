@@ -4,9 +4,9 @@ const validator = require("validator");
 
 const ContatoSchema = new mongoose.Schema({
   nome: { type: String, required: true },
-  sobrenome: { type: String, default: "" },
-  email: { type: String, default: "" },
-  telefone: { type: String, default: "" },
+  sobrenome: { type: String, required: false, default: "" },
+  email: { type: String, required: false, default: "" },
+  telefone: { type: String, required: false, default: "" },
   criadoEm: { type: Date, default: Date.now },
 });
 
@@ -18,11 +18,21 @@ function Contato(body) {
   this.contato = null;
 }
 
+Contato.buscaPorId = async function (id) {
+  if (typeof id !== "string") return;
+  //função estática, não associada ao prototype
+  const contato = await ContatoModel.findById(id);
+  return contato;
+};
+
 Contato.prototype.register = async function () {
+  this.cleanUp();
   this.valida();
+
   if (this.errors.length > 0) return;
   this.contato = await ContatoModel.create(this.body);
 };
+
 Contato.prototype.valida = function () {
   //Validação
   this.cleanUp();
@@ -34,6 +44,7 @@ Contato.prototype.valida = function () {
       "Pelo menos uma forma de contato precisa ser enviada: E-mail ou Telefone"
     );
 };
+
 Contato.prototype.cleanUp = function () {
   for (const key in this.body) {
     if (typeof this.body[key] !== "string") {
@@ -47,5 +58,14 @@ Contato.prototype.cleanUp = function () {
     email: this.body.email,
     telefone: this.body.telefone,
   };
+};
+
+Contato.prototype.edit = async function (id) {
+  if (typeof id !== "string") return;
+  this.valida();
+  if (this.errors.length > 0) return;
+  this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, {
+    new: true,
+  });
 };
 module.exports = Contato;
